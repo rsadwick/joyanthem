@@ -1,1 +1,75 @@
-// Your custom SCSS should be written here...
+.module
+{
+  padding: 20px;
+  border-top: #fff solid 1px;
+}
+
+#container_hero
+{
+  background: #48CBDD;
+  text-align: right;
+  padding: 12px 145px;
+
+  h2{
+    color: #c4000a;
+  }
+}
+
+#container_schedule
+{
+  background: #9FE6F0;
+  h2{
+    color: #01414A;
+  }
+}
+
+#calendar_parent
+{
+  .calendar_item{
+    background: #01414A;
+    color: #fff;
+      p{
+        padding: 12px;
+      }
+  }
+}
+
+#container_bible
+{
+  background: #FF8951;
+  h2, p{
+    color: #561D01;
+  }
+}
+
+#bible_parent
+{
+  .calendar_item{
+    background: #561D01;
+    color: #fff;
+  }
+}
+
+#container_misc
+{
+  .column_misc1
+  {
+    padding: 20px;
+    background: #9FE6F0;
+  }
+  .column_misc2
+  {
+    padding: 20px;
+    background: #A1F6B0;
+  }
+}
+
+footer{
+  background: #014F0F;
+  h2{
+    color: #A1F6B0;
+  }
+  .item{
+    background: #A1F6B0;
+  }
+}
