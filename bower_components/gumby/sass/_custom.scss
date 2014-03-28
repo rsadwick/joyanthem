@@ -1,3 +1,12 @@
+.btn,.drawer { margin-bottom:10px; }
+.drawer { text-align: center; }
+h1.lead { border-bottom: 1px dotted #ccc; margin-bottom: 30px; }
+h4.lead { margin-bottom:10px; }
+#icon_map ul li { font-size: 16px; }
+.smallify { font-size: 13px; }
+.modal h2, .modal .btn { margin: 5% 0 20px; }
+.ttip.example { float: left; background: #eee; border: 1px dotted #ccc; padding: 20px; }
+
 .module
 {
   padding: 20px;
@@ -7,8 +16,7 @@
 #container_hero
 {
   background: #48CBDD;
-  text-align: right;
-  padding: 12px 145px;
+  padding: 11px 28px 18px 20px;
 
   h2{
     color: #c4000a;

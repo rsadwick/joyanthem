@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset "IBM437";
 @import url(//fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
 /**
 * Gumby Framework
@@ -1682,9 +1682,25 @@ table.rounded thead th, table.rounded thead td, table.rounded caption + tbody tr
 
 .ie9 .radio.checked i, .ie9 .checkbox.checked i { top: 0; }
 
+.btn, .drawer { margin-bottom: 10px; }
+
+.drawer { text-align: center; }
+
+h1.lead { border-bottom: 1px dotted #ccc; margin-bottom: 30px; }
+
+h4.lead { margin-bottom: 10px; }
+
+#icon_map ul li { font-size: 16px; }
+
+.smallify { font-size: 13px; }
+
+.modal h2, .modal .btn { margin: 5% 0 20px; }
+
+.ttip.example { float: left; background: #eee; border: 1px dotted #ccc; padding: 20px; }
+
 .module { padding: 20px; border-top: #fff solid 1px; }
 
-#container_hero { background: #48CBDD; text-align: right; padding: 12px 145px; }
+#container_hero { background: #48CBDD; padding: 11px 28px 18px 20px; }
 #container_hero h2 { color: #c4000a; }
 
 #container_schedule { background: #9FE6F0; }
