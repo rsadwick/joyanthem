@@ -20,7 +20,20 @@
 {% endblock %}
 
 {% block main %}
-    <div class="row">
 
-    </div>
+    <h1>{{ page.songoftheday.title }}</h1>
+    <h1>{{ page.songoftheday.name }}</h1>
+
+    {% for itemq in page.songoftheday.discography_set.all %}
+        {% for song in itemq.song.all %}
+            <p> Song: {{ song }}</p>
+            <p>Artist: {{ song.artist.all|first }}</p>
+
+            {% if song.video_type.video_type_id == 0 %}
+                <p>Viemo {{ song.video_content }}</p>
+            {% else %}
+                <p>youtube</p>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
 {% endblock %}

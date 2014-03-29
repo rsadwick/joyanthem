@@ -1,22 +1,17 @@
 from copy import deepcopy
 from django.contrib import admin
 from mezzanine.pages.admin import PageAdmin
-from .models import Artist, Album, Song, VideoType, SongOfTheDay
+from .models import Artist, Album, Song, VideoType, SongOfTheDay, Discography
 
 artist_extra_fields = ((None, {"fields": ("name",)}),)
 
-class SongOfDayInline(admin.TabularInline):
-    model = SongOfTheDay
 
-class AlbumInline(admin.TabularInline):
-    model = Album
-
-class SongInline(admin.TabularInline):
-    model = Song
+class ArtistInline(admin.TabularInline):
+    model = Discography
 
 class ArtistAdmin(PageAdmin):
-    inlines = (SongInline,)
-    fieldsets = deepcopy(PageAdmin.fieldsets) + artist_extra_fields
+    inlines = (ArtistInline,)
+    fieldsets = deepcopy(PageAdmin.fieldsets)
 
 admin.site.register(Artist)
 admin.site.register(Album)
