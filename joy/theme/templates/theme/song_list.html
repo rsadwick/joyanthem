@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load mezzanine_tags future %}
+
+{% block meta_title %}{{ title|default:"Home" }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+
+
+    <h2>Publishers</h2>
+    <ul>
+        {% for publisher in object_list %}
+            <li>{{ publisher.title }}</li>
+        {% endfor %}
+    </ul>
+
+
+
+
+{% endblock %}

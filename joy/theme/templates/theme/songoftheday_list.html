@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load mezzanine_tags future %}
+
+{% block meta_title %}{{ title|default:"Home" }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+
+
+    <h2>Publishers</h2>
+    <ul>
+        {% for publisher in object_list %}
+            <li>{{ publisher.song }}</li>
+
+        {% for pop in publisher.song.all %}
+            <p> Song: {{ pop }} - {{ pop.content }}</p>
+            <p>{{ pop.artist }}</p>
+
+
+
+            {% if song.video_type.video_type_id == 0 %}
+                <p>Viemo {{ song.video_content }}</p>
+            {% else %}
+                <p>youtube</p>
+            {% endif %}
+        {% endfor %}
+
+
+
+        {% endfor %}
+
+            {% for artist in object_list.song_set.all %}
+                <p>Artist: {{ artist }}</p>
+            {% endfor %}
+
+    </ul>
+
+
+
+
+{% endblock %}
