@@ -1,6 +1,11 @@
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django.utils import simplejson
 from django.utils.datetime_safe import date
 from django.views.generic import ListView, CreateView, DetailView
-from joy.theme.models import SongOfTheDay, Artist
+from requests import request
+from joy.theme.models import SongOfTheDay, Artist, Song
+
 
 class SongList(ListView):
 
@@ -19,3 +24,9 @@ class ArtistDetail(DetailView):
 
 class LinkDetail(DetailView):
     model = SongOfTheDay
+
+
+def get_captions(request, song_id):
+    current_song = get_object_or_404(Song, pk=song_id)
+    return HttpResponse(current_song.captions)
+

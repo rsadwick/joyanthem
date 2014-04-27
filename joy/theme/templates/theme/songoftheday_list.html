@@ -7,22 +7,65 @@
 
 {% block main %}
 
+    <iframe id="player1" src="http://player.vimeo.com/video/27855315?api=1&player_id=player1" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
+            <script id="tester" type="text/vtt">
+               WEBVTT FILE
+
+1
+00:00:03.500 --> 00:00:05.000
+Everyone wants the most from life
+
+2
+00:00:06.000 --> 00:00:09.000
+Like internet experiences that are rich and entertaining
+
+3
+00:00:11.000 --> 00:00:14.000
+Phone conversations where people truly
+
+4
+00:00:14.500 --> 00:00:18.000
+Your favourite TV programmes ready to watch at the touch of a button
+
+5
+00:00:19.000 --> 00:00:24.000
+Which is why we are bringing TV, internet and phone together in super package
+
+6
+00:00:24.500 --> 00:00:26.000
+simple way to get everything
+
+ </script>
+
+     <div id="result"></div>
     <h2>Publishers</h2>
     <ul>
         {% for publisher in object_list %}
             <li>{{ publisher.song }}</li>
 
+
         {% for pop in publisher.song.all %}
             <p> Song: {{ pop }} - {{ pop.content }}</p>
             <p>{{ pop.artist }}</p>
+            <p>{{ pop.album.name }}</p>
+           <p>{{ pop.id }} </p>
+
+        {% for album in pop.album.all %}
+            <li>{{ album.name }}</li>
+
+        {% endfor %}
 
 
 
-            {% if song.video_type.video_type_id == 0 %}
-                <p>Viemo {{ song.video_content }}</p>
+            <p>captions {{ pop.captions.name }}</p>
+
+            <hr/>
+
+            {% if pop.video_type.video_type_id == 0 %}
+                <p>Viemo {{ pop.video_content }}</p>
             {% else %}
-                <p>youtube</p>
+                <p>youtube {{ pop.video_content }}</p>
             {% endif %}
         {% endfor %}
 
@@ -32,11 +75,76 @@
 
             {% for artist in object_list.song_set.all %}
                 <p>Artist: {{ artist }}</p>
+
             {% endfor %}
 
     </ul>
 
 
+<script>
+    var captions;
+    var vimeoConfig;
+    var vimeoPlayer;
+    var scope = this;
+    $( document ).ready(function() {
+        //get captions
+        $.ajax({
+            url: "/services/1",
+            cache: true,
+            success: function(data){
+                scope.setCaptions(data);
+            }
+        });
+    });
 
+    function setCaptions(data){
+        captions = data
+        $("#tester").html(data)
+        //set player up:
+        vimeoConfig =  {
+            container: document.getElementById('player1')
+        };
+        vimeoPlayer = new Vimeo(vimeoConfig);
+
+        vimeoConfig.container.addEventListener('onPlayerReady', function(e){
+            vimeoPlayer.play();
+
+        });
+
+        vimeoConfig.container.addEventListener('onProgress', function(e){
+         $('#tester').webVtt(formatSecondsAsTime(vimeoPlayer.getSeek())).appendTo('#result');
+
+        });
+
+
+    }
+
+    function formatSecondsAsTime(secs, format) {
+        var hr  = Math.floor(secs / 3600);
+        var min = Math.floor((secs - (hr * 3600))/60);
+        var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
+
+        if (hr < 10)   { hr    = "0" + hr; }
+        if (min < 10) { min = "0" + min; }
+        if (sec < 10)  { sec  = "0" + sec; }
+        if (hr)            { hr   = "00"; }
+
+        if (format != null) {
+            var formatted_time = format.replace('hh', hr);
+            formatted_time = formatted_time.replace('h', hr*1+""); // check for single hour formatting
+            formatted_time = formatted_time.replace('mm', min);
+            formatted_time = formatted_time.replace('m', min*1+""); // check for single minute formatting
+            formatted_time = formatted_time.replace('ss', sec);
+            formatted_time = formatted_time.replace('s', sec*1+""); // check for single second formatting
+            return formatted_time;
+        }
+        else {
+            return hr + ':' + min + ':' + sec + ".000";
+        }
+    }
+
+
+
+</script>
 
 {% endblock %}
