@@ -28,6 +28,10 @@ class SongOfTheDayList(ListView):
     model = SongOfTheDay
     queryset = SongOfTheDay.objects.all()
 
+class AllArtistList(ListView):
+    model = Artist
+    queryset = Artist.objects.all()
+
 def get_captions(request, song_id):
     current_song = get_object_or_404(Song, pk=song_id)
     return HttpResponse(current_song.captions)

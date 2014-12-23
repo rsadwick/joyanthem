@@ -53,56 +53,6 @@
 
     </ul>
 
-
-<script>
-    var captions;
-    var vimeoConfig;
-    var vimeoPlayer;
-    var scope = this;
-    $( document ).ready(function() {
-        //get captions
-        $.ajax({
-            url: "/services/1",
-            cache: true,
-            success: function(data){
-                scope.setCaptions(data);
-            }
-        });
-    });
-
-    function setCaptions(captions){
-        $("#tester").html(captions)
-        //set player up:
-        vimeoConfig =  {
-            container: document.getElementById('player1')
-        };
-        vimeoPlayer = new Vimeo(vimeoConfig);
-
-        vimeoConfig.container.addEventListener('onPlayerReady', function(e){
-            vimeoPlayer.play();
-
-        });
-
-        vimeoConfig.container.addEventListener('onProgress', function(e){
-         $('#tester').webVtt(formatSecondsAsTime(vimeoPlayer.getSeek())).appendTo('#result');
-
-        });
-    }
-
-    function formatSecondsAsTime(secs, format) {
-        var hr  = Math.floor(secs / 3600);
-        var min = Math.floor((secs - (hr * 3600))/60);
-        var sec = Math.floor(secs - (hr * 3600) -  (min * 60));
-
-        if (hr < 10){ hr    = "0" + hr; }
-        if (min < 10){ min = "0" + min; }
-        if (sec < 10){ sec  = "0" + sec; }
-        if (hr){ hr   = "00"; }
-
-        return hr + ':' + min + ':' + sec + ".000";
-    }
-
-</script>
 <script id="tester" type="text/vtt"></script>
 
 {% endblock %}

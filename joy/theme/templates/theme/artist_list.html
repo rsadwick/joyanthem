@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load mezzanine_tags future %}
+
+{% block meta_title %}{{ title|default:"Home" }}{% endblock %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block main %}
+
+
+    <h2>all artists</h2>
+    <ul>
+        {% for artist in object_list %}
+            <li>{{ artist.name }}</li>
+
+        {% endfor %}
+
+    </ul>
+
+
+{% endblock %}
