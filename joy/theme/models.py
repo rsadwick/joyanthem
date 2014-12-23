@@ -37,6 +37,8 @@ class Album(models.Model):
     song = models.ManyToManyField("Song", related_name="AlbumSong", blank=True, null=True)
     #cover = models.ImageField(upload_to="artists")
     content = RichTextField(("Content"), blank=True)
+    amazon_buy_url = models.CharField(max_length=400, blank=True, null=True)
+    itunes_buy_url = models.CharField(max_length=400, blank=True, null=True)
 
     def __unicode__(self):
         return self.name

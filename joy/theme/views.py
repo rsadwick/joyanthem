@@ -13,7 +13,6 @@ class SongList(ListView):
     today = date.today()
     queryset = SongOfTheDay.objects.filter(pub_date__year=today.year, pub_date__month=today.month, pub_date__day=today.day)
 
-
 class ArtistDetail(DetailView):
     model = Artist
 
@@ -25,8 +24,10 @@ class ArtistDetail(DetailView):
 class LinkDetail(DetailView):
     model = SongOfTheDay
 
+class SongOfTheDayList(ListView):
+    model = SongOfTheDay
+    queryset = SongOfTheDay.objects.all()
 
 def get_captions(request, song_id):
     current_song = get_object_or_404(Song, pk=song_id)
     return HttpResponse(current_song.captions)
-
