@@ -7,51 +7,55 @@
 
 {% block main %}
 
-    <iframe id="player1" src="http://player.vimeo.com/video/27855315?api=1&player_id=player1" width="400" height="225" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
+<iframe id="player1" src="http://player.vimeo.com/video/27855315?api=1&player_id=player1" width="400" height="225"
+        frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
 
 
-
-     <div id="result"></div>
-    <h2>Publishers</h2>
-    <ul>
-        {% for publisher in object_list %}
-            <li>{{ publisher.song }}</li>
-
-
-        {% for pop in publisher.song.all %}
-            <p> Song: {{ pop }} - {{ pop.content }}</p>
-            <p>{{ pop.artist }}</p>
-            <p>{{ pop.album.name }}</p>
-           <p>{{ pop.id }} </p>
-
-        {% for album in pop.album.all %}
-            <li>{{ album.name }}</li>
-
-        {% endfor %}
+<div id="result"></div>
+<h2>Publishers</h2>
+<ul>
+    {% for publisher in object_list %}
+    <li>{{ publisher.song }}</li>
 
 
+    {% for pop in publisher.song.all %}
 
-            <p>captions {{ pop.captions.name }}</p>
+     <div class="video" data-type="{% if pop.video_type.video_type_id == 0 %}viemo{% else %}youtube>{% endif %}">
+            <p>Viemo {{ pop.video_content }}</p>
 
-            <hr/>
-
-            {% if pop.video_type.video_type_id == 0 %}
-                <p>Viemo {{ pop.video_content }}</p>
-            {% else %}
-                <p>youtube {{ pop.video_content }}</p>
-            {% endif %}
-        {% endfor %}
+     </div>
 
 
+    <p> Song: {{ pop }} - {{ pop.content }}</p>
 
-        {% endfor %}
+    <p>{{ pop.artist }}</p>
 
-            {% for artist in object_list.song_set.all %}
-                <p>Artist: {{ artist }}</p>
+    <p>{{ pop.album.name }}</p>
 
-            {% endfor %}
+    <p>{{ pop.id }} </p>
 
-    </ul>
+    {% for album in pop.album.all %}
+    <li>{{ album.name }}</li>
+
+    {% endfor %}
+
+
+    <p>captions {{ pop.captions.name }}</p>
+
+    <hr/>
+
+
+    {% endfor %}
+
+
+    {% endfor %}
+
+    {% for artist in object_list.song_set.all %}
+    <p>Artist: {{ artist }}</p>
+
+    {% endfor %}
+
+</ul>
 
 <script id="tester" type="text/vtt"></script>
 
