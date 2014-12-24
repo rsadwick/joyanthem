@@ -19,12 +19,12 @@
     <strong>ID = {{ pop.video_type.video_type_id }} </strong>
     {% if pop.video_type.video_type_id == 0 %}
         <div id="viemo">
-            <iframe id="player1" src="http://player.vimeo.com/video/27855315?api=1&player_id=player1" width="400" height="225"
+            <iframe id="player1" src="http://player.vimeo.com/video/{{ pop.video_content }}?api=1&player_id=player1" width="400" height="225"
             frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>
         </div>
 
     {% else %}
-        <div id="youtube">
+        <div id="youtube" data-video="{{ pop.video_content }}">
 
             <div id="tuba"></div>
         </div>

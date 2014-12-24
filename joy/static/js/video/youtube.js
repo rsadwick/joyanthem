@@ -8,6 +8,7 @@ var Youtube = Video.extend({
         _scope = this;
         this.config = config;
         this.container = this.config.container;
+        this.videoId = config.id;
         this.currentTime = 0;
         this.duration = 0;
         this.progressInterval;
@@ -17,7 +18,7 @@ var Youtube = Video.extend({
          this.player = new YT.Player(this.container, {
             height: '390',
             width: '640',
-            videoId: 'P7tu96k_4Uw',
+            videoId: this.videoId,
             events: {
                  'onStateChange': this.onPlayerStateChange
             },

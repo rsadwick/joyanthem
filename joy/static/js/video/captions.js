@@ -54,7 +54,8 @@
             }
             else if(this.app.canvas.find("#youtube").length > 0){
                 var youtubeConfig = {
-                    container: document.getElementById('tuba')
+                    container: document.getElementById('tuba'),
+                    id: this.app.canvas.find("#youtube").data("video")
                 };
                 youtubePlayer = new Youtube(youtubeConfig);
 
