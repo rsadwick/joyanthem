@@ -17,12 +17,13 @@
         //var shipping = new joy.template.shipping({ element: '#joy-ship', app: joy.instance() });
         //shipping.somefunction();
 
-        if($('#player1').length > 0){
+        if($('.video').length > 0){
             console.log('caption time')
-            var captions = new joy.service.captions({element: '#tester', output: '#result', app: joy.instance() });
+            captions = new joy.service.captions({element: '#tester', output: '#result', app: joy.instance() });
             captions.getCaptions();
         }
 
     });
 
 })(jQuery);
+

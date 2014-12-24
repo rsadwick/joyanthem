@@ -35,21 +35,41 @@
             var scope = this;
             this.element.html(captions)
             //set player up:
-            vimeoConfig =  {
-                container: document.getElementById('player1')
-            };
-            vimeoPlayer = new Vimeo(vimeoConfig);
+            if(this.app.canvas.find("#viemo").length > 0){
+                vimeoConfig =  {
+                    container: document.getElementById('player1')
+                };
+                vimeoPlayer = new Vimeo(vimeoConfig);
 
-            vimeoConfig.container.addEventListener('onPlayerReady', function(e){
-                vimeoPlayer.play();
+                vimeoConfig.container.addEventListener('onPlayerReady', function(e){
+                    vimeoPlayer.play();
 
-            });
+                });
 
-            vimeoConfig.container.addEventListener('onProgress', function(e){
-             var captions = scope.element.webVtt(scope.secondsToTimecode(vimeoPlayer.getSeek()));
-               scope.output.html($(captions).html())
+                vimeoConfig.container.addEventListener('onProgress', function(e){
+                 var captions = scope.element.webVtt(scope.secondsToTimecode(vimeoPlayer.getSeek()));
+                   scope.output.html($(captions).html())
 
-            });
+                });
+            }
+            else if(this.app.canvas.find("#youtube").length > 0){
+                var youtubeConfig = {
+                    container: document.getElementById('tuba')
+                };
+                youtubePlayer = new Youtube(youtubeConfig);
+
+                this.app.events.on(
+                    joy.app.event.ON_VIDEO_PROGRESS,
+                    function (e, eventInfo) {
+                        var captions = scope.element.webVtt(scope.secondsToTimecode(youtubePlayer.getSeek()));
+                         scope.output.html($(captions).html())
+                        },
+                    this
+                );
+
+                $.getScript( "https://www.youtube.com/iframe_api" );
+
+            }
         }
     }
 })(jQuery);

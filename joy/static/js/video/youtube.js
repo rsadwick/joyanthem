@@ -10,6 +10,7 @@ var Youtube = Video.extend({
         this.container = this.config.container;
         this.currentTime = 0;
         this.duration = 0;
+        this.progressInterval;
     },
 
     load: function(){
@@ -18,7 +19,7 @@ var Youtube = Video.extend({
             width: '640',
             videoId: 'P7tu96k_4Uw',
             events: {
-
+                 'onStateChange': this.onPlayerStateChange
             },
             playerVars: {
                 'html5': 1,
@@ -34,16 +35,43 @@ var Youtube = Video.extend({
         });
     },
 
-    ready: function(player_id){
-        this.duration = _scope.player.getDuration();
-       // setInterval(_scope.onProgress, 250);
-        //_scope.onProgress();
-        console.log(player_id)
-        this._super(_scope.container);
+    onPlayerStateChange: function(event){
+        //var scope = this;
+        switch(event.data)
+		{
+			case -1:
+				//console.log("Unstarted");
+				break;
+			case 0:
+				//console.log("Ended");
+                window.clearInterval(_scope.progressInterval);
+				break;
+			case 1:
+				//console.log("Playing");
+                _scope.progressInterval = window.setInterval(_scope.onProgress, 500);
+
+				break;
+			case 2:
+				//console.log("Paused");
+                window.clearInterval(_scope.progressInterval);
+
+				break;
+			case 3:
+				//console.log("Buffering");
+
+				break;
+			case 5:
+				//console.log("Cued");
+				break;
+			default:
+				//console.log("UnknownState");
+				break;
+		}
     },
 
     onProgress: function(){
         _scope.currentTime = _scope.player.getCurrentTime();
+         joy.instance().events.trigger(joy.app.event.ON_VIDEO_PROGRESS, _scope.player.getCurrentTime())
     },
 
     onPause: function(e){
@@ -64,7 +92,7 @@ var Youtube = Video.extend({
     },
 
     onFinish: function(){
-        console.log("video is finished!");
+        //console.log("video is finished!");
     },
 
     getDuration: function(){
@@ -84,5 +112,10 @@ var Youtube = Video.extend({
         this.player.setVolume(volume);
     }
 });
+
+//global callback for iframe api - the suck
+function onYouTubeIframeAPIReady(e) {
+    youtubePlayer.load(e);
+}
 
 

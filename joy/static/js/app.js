@@ -23,6 +23,6 @@
 
     joy.app.event =
     {
-        SOME_EVENT_FIRED: 'SOME_EVENT_FIRED:hello'
+        ON_VIDEO_PROGRESS: 'onVideoProgress'
     };
 })(jQuery);

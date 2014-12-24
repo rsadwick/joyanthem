@@ -59,7 +59,6 @@
                 i += 1;
             }
 
-            console.log(CUE.test(lines[i]))
             if (!CUE.test(lines[i])) {
                 throw "An error while parsing a WebVTT cue string on cue " + (i + 1) + ".";
             }
