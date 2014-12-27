@@ -14,6 +14,9 @@
 
     //all init stuff goes in here
     jQuery(document).ready(function () {
+
+        //foundation init:
+        $(document).foundation();
         //var shipping = new joy.template.shipping({ element: '#joy-ship', app: joy.instance() });
         //shipping.somefunction();
 

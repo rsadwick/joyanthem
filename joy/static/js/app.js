@@ -21,7 +21,7 @@
         }
     };
 
-    $(document).foundation();
+
 
     joy.app.event =
     {

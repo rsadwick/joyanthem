@@ -7,16 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
     <meta name="description" content="{% block meta_description %}{% endblock %}">
-    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif%}</title>
-    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
-
-    {% ifinstalled mezzanine.blog %}
-    <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
-    <link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
-    {% endifinstalled %}
+    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{%endif%}</title>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico">
 
     {% compress css %}
-    <link rel="stylesheet" href="{% static "stylesheets/app.css" %}">
+    <link rel="stylesheet" href="{{ STATIC_URL }}stylesheets/app.css">
 
     {% if LANGUAGE_BIDI %}
 
@@ -70,225 +65,207 @@
 </aside>
 
 <section class="main-section">
-<!-- content goes here -->
+    <!-- content goes here -->
 
 
-<div class="row">
-
-    {% nevercache %}
-    {% if messages %}
-    <div class="messages">
-        {% for message in messages %}
-        <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-            {{ message }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endnevercache %}
-    s
-    <h1>{% block title %}{% endblock %}</h1>
-
-    <ul class="breadcrumb">
-        {% spaceless %}
-        {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
-        {% endspaceless %}
-    </ul>
-
-</div>
-
-
-<div class="row">
-    <div class="large-12 columns">
-
-        <div class="row">
-            <div class="large-12 hide-for-small">
-                <div class="orbit-container">
-                    <div id="featured" data-orbit="" class="orbit-slides-container" style="height: 417px;">
-                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 1" alt="slide image" class="active">
-                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 2" alt="slide image">
-                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 3" alt="slide image">
-                    </div>
-                    <a href="#" class="orbit-prev"><span></span></a><a href="#" class="orbit-next"><span></span></a>
-
-                    <div class="orbit-timer paused"><span></span>
-
-                        <div class="orbit-progress" style="width: 27.49%;"></div>
-                    </div>
-                    <div class="orbit-slide-number"><span>1</span> of <span>3</span></div>
-                    <div class="orbit-bullets-container">
-                        <ol class="orbit-bullets">
-                            <li data-orbit-slide="0" class="active"></li>
-                            <li data-orbit-slide="1"></li>
-                            <li data-orbit-slide="2"></li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="large-12 columns show-for-small">
-                <img src="http://placehold.it/1200x700&amp;text=Mobile Header">
-            </div>
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="large-12 columns">
-                <div class="row">
-
-                    <div class="large-4 small-6 columns">
-                        <h4>Upcoming Shows</h4>
-                        <hr>
-                        <div class="row">
-                            <div class="large-1 column">
-                                <img src="http://placehold.it/50x50&amp;text=[img]">
-                            </div>
-                            <div class="large-9 columns">
-                                <h5><a href="#">Venue Name</a></h5>
-                                <h6 class="subheader show-for-small">Doors at 00:00pm</h6>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="hide-for-small">
-                            <div class="row">
-                                <div class="large-1 column">
-                                    <img src="http://placehold.it/50x50&amp;text=[img]">
-                                </div>
-                                <div class="large-9 columns">
-                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="large-1 column">
-                                    <img src="http://placehold.it/50x50&amp;text=[img]">
-                                </div>
-                                <div class="large-9 columns">
-                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="large-1 column">
-                                    <img src="http://placehold.it/50x50&amp;text=[img]">
-                                </div>
-                                <div class="large-9 columns">
-                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="large-4 small-6 columns">
-                        <img src="http://placehold.it/300x465&amp;text=Image">
-                    </div>
-
-
-                    <div class="large-4 small-12 columns">
-                        <h4>Blog</h4>
-                        <hr>
-                        <div class="panel">
-                            <h5><a href="#">Post Title 1</a></h5>
-                            <h6 class="subheader">
-                                Risus ligula, aliquam nec fermentum vitae, sollicitudin eget urna. Suspendisse ultrices
-                                ornare tempor...
-                            </h6>
-                            <h6><a href="#">Read More »</a></h6>
-                        </div>
-                        <div class="panel hide-for-small">
-                            <h5><a href="#">Post Title 2 »</a></h5>
-                        </div>
-                        <div class="panel hide-for-small">
-                            <h5><a href="#">Post Title 3 »</a></h5>
-                        </div>
-                        <a href="#" class="right">Go To Blog »</a>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-
-        <footer class="row">
-            <div class="large-12 columns">
-                <hr>
-                <div class="row">
-                    <div class="large-6 columns">
-                        <p>© Copyright no one at all. Go to town.</p>
-                    </div>
-                    <div class="large-6 small-12 columns">
-                        <ul class="inline-list right">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                            <li><a href="#">Link 4</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </footer>
-
-    </div>
-</div>
-
-
-<div class="container">
     <div class="row">
 
-        <div class="col-md-2 left">
-            {% block left_panel %}
-            <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
-            {% endblock %}
+        {% nevercache %}
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
         </div>
+        {% endif %}
+        {% endnevercache %}
+        s
+        <h1>{% block title %}{% endblock %}</h1>
 
-        <div class="col-md-7 middle">
-            {% block main %}{% endblock %}
-        </div>
+        <ul class="breadcrumb">
+            {% spaceless %}
+            {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+            {% endspaceless %}
+        </ul>
 
-        <div class="col-md-3 right">
-            {% nevercache %}
-            {% include "includes/user_panel.html" %}
-            {% endnevercache %}
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {% block right_panel %}
-                    {% ifinstalled mezzanine.twitter %}
-                    {% include "twitter/tweets.html" %}
-                    {% endifinstalled %}
-                    {% endblock %}
+    </div>
+
+
+    <div class="row">
+        <div class="large-12 columns">
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <ul class="example-orbit" data-orbit>
+                        <li><img src="http://placehold.it/1000x400&amp;text=[%20img%201%20]"></li>
+                        <li><img src="http://placehold.it/1000x400&amp;text=[%20img%202%20]"></li>
+                        <li><img src="http://placehold.it/1000x400&amp;text=[%20img%203%20]"></li>
+                    </ul>
                 </div>
             </div>
+            <hr/>
+
+
+            <div class="row">
+                <div class="large-12 columns show-for-small">
+                    <img src="http://placehold.it/1200x700&amp;text=Mobile Header">
+                </div>
+            </div>
+            <br>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="row">
+
+                        <div class="large-3 small-6 columns">
+                            <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                            <h6 class="panel">Description</h6>
+                        </div>
+                        <div class="large-3 small-6 columns">
+                            <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                            <h6 class="panel">Description</h6>
+                        </div>
+                        <div class="large-3 small-6 columns">
+                            <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                            <h6 class="panel">Description</h6>
+                        </div>
+                        <div class="large-3 small-6 columns">
+                            <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                            <h6 class="panel">Description</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <div class="row">
+
+                        <div class="large-8 columns">
+                            <div class="panel radius">
+                                <div class="row">
+                                    <div class="large-6 small-6 columns">
+                                        <h4>Header</h4>
+                                        <hr>
+                                        <h5 class="subheader">Risus ligula, aliquam nec fermentum vitae, sollicitudin
+                                            eget
+                                            urna. Donec
+                                            dignissim nibh fermentum odio ornare sagittis.</h5>
+
+                                        <div class="show-for-small" style="text-align: center">
+                                            <a class="small radius button" href="#">Call To Action!</a><br>
+                                            <a class="small radius button" href="#">Call To Action!</a>
+                                        </div>
+                                    </div>
+                                    <div class="large-6 small-6 columns">
+                                        <p>Suspendisse ultrices ornare tempor. Aenean eget ultricies libero. Phasellus
+                                            non
+                                            ipsum eros. Vivamus
+                                            at dignissim massa. Aenean dolor libero, blandit quis interdum et, malesuada
+                                            nec
+                                            ligula. Nullam erat
+                                            erat, eleifend sed pulvinar ac. Suspendisse ultrices ornare tempor. Aenean
+                                            eget
+                                            ultricies libero.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="large-4 columns hide-for-small">
+                            <h4>Get In Touch!</h4>
+                            <hr>
+                            <a href="#">
+                                <div class="panel radius callout" style="text-align: center">
+                                    <strong>Call To Action!</strong>
+                                </div>
+                            </a> <a href="#">
+                            <div class="panel radius callout" style="text-align: center">
+                                <strong>Call To Action!</strong>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <footer class="row">
+                <div class="large-12 columns">
+                    <hr>
+                    <div class="row">
+                        <div class="large-6 columns">
+                            <p>© Copyright no one at all. Go to town.</p>
+                        </div>
+                        <div class="large-6 small-12 columns">
+                            <ul class="inline-list right">
+                                <li><a href="#">Link 1</a></li>
+                                <li><a href="#">Link 2</a></li>
+                                <li><a href="#">Link 3</a></li>
+                                <li><a href="#">Link 4</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
         </div>
-
     </div>
-</div>
 
-<footer>
+
     <div class="container">
-        {% page_menu "pages/menus/footer.html" %}
-
         <div class="row">
-            <p class="site-info text-center">
-                {% trans "Powered by" %}
-                <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
-                <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
-                {% trans "and" %}
-                <a href="http://www.djangoproject.com">Django</a>
-                <span class="separator">|</span>
-                {% trans "Theme by" %} <a target="_blank" href="http://getbootstrap.com">Bootstrap</a>
-                {% ifinstalled mezzanine.mobile %}
-                <span class="separator">|</span>
-                <a href="{% url " set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
-                {% endifinstalled %}
-            </p>
+
+            <div class="col-md-2 left">
+                {% block left_panel %}
+                <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
+                {% endblock %}
+            </div>
+
+            <div class="col-md-7 middle">
+                {% block main %}{% endblock %}
+            </div>
+
+            <div class="col-md-3 right">
+                {% nevercache %}
+                {% include "includes/user_panel.html" %}
+                {% endnevercache %}
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% block right_panel %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-</footer>
+
+    <footer>
+        <div class="container">
+            {% page_menu "pages/menus/footer.html" %}
+
+            <div class="row">
+                <p class="site-info text-center">
+                    {% trans "Powered by" %}
+                    <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
+                    <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
+                    {% trans "and" %}
+                    <a href="http://www.djangoproject.com">Django</a>
+                    <span class="separator">|</span>
+                    {% trans "Theme by" %} <a target="_blank" href="http://getbootstrap.com">Bootstrap</a>
+                    {% ifinstalled mezzanine.mobile %}
+                    <span class="separator">|</span>
+                    <a href="{% url " set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site"
+                    %}</a>
+                    {% endifinstalled %}
+                </p>
+            </div>
+        </div>
+    </footer>
 
 
 </section>
@@ -324,6 +301,7 @@
 <script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
 
 <script src="{{ STATIC_URL }}bower_components/foundation/js/foundation.min.js"></script>
+
 
 <script src="{{ STATIC_URL }}js/joy.js"></script>
 <script src="{{ STATIC_URL }}js/app.js"></script>
