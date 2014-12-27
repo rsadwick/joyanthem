@@ -21,6 +21,8 @@
         }
     };
 
+    $(document).foundation();
+
     joy.app.event =
     {
         ON_VIDEO_PROGRESS: 'onVideoProgress'

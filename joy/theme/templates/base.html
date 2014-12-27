@@ -3,149 +3,329 @@
 {% load pages_tags mezzanine_tags i18n future staticfiles %}
 
 <head>
-<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
-<meta name="description" content="{% block meta_description %}{% endblock %}">
-<title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif %}</title>
-<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% endblock %}">
+    <title>{% block meta_title %}{% endblock %}{% if settings.SITE_TITLE %} | {{ settings.SITE_TITLE }}{% endif%}</title>
+    <link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
 
-{% ifinstalled mezzanine.blog %}
-<link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
-<link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
-{% endifinstalled %}
+    {% ifinstalled mezzanine.blog %}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{% url "blog_post_feed" "rss" %}">
+    <link rel="alternate" type="application/atom+xml" title="Atom" href="{% url "blog_post_feed" "atom" %}">
+    {% endifinstalled %}
 
-{% compress css %}
-<link rel="stylesheet" href="{% static "css/bootstrap.css" %}">
-<link rel="stylesheet" href="{% static "css/mezzanine.css" %}">
-<link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}">
-{% if LANGUAGE_BIDI %}
-<link rel="stylesheet" href="{% static "css/rtl.css" %}">
-{% endif %}
-{% ifinstalled cartridge.shop %}
-<link rel="stylesheet" href="{% static "css/cartridge.css" %}">
-{% if LANGUAGE_BIDI %}
-<link rel="stylesheet" href="{% static "css/cartridge.rtl.css" %}">
-{% endif %}
-{% endifinstalled %}
-{% block extra_css %}{% endblock %}
-{% endcompress %}
+    {% compress css %}
+    <link rel="stylesheet" href="{% static "stylesheets/app.css" %}">
 
-{% compress js %}
-<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
-<script src="{% static "js/bootstrap.js" %}"></script>
-<script src="{% static "js/bootstrap-extras.js" %}"></script>
-{% block extra_js %}{% endblock %}
-{% endcompress %}
-<!--[if lt IE 9]>
-<script src="{% static "js/html5shiv.js" %}"></script>
-<script src="{% static "js/respond.min.js" %}"></script>
-<![endif]-->
+    {% if LANGUAGE_BIDI %}
 
-{% block extra_head %}{% endblock %}
+    {% endif %}
+    {% ifinstalled cartridge.shop %}
+
+    {% if LANGUAGE_BIDI %}
+
+    {% endif %}
+    {% endifinstalled %}
+    {% block extra_css %}{% endblock %}
+    {% endcompress %}
+
+
+    <!--[if lt IE 9]>
+
+    <![endif]-->
+
+    {% block extra_head %}{% endblock %}
 </head>
 
 <body id="{% block body_id %}body{% endblock %}">
 
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-<div class="container">
-<div class="navbar-header">
-    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="sr-only">{% trans "Toggle Navigation" %}</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-    </button>
-    {% if settings.SITE_TITLE %}<a class="navbar-brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
-    {% if settings.SITE_TAGLINE %}<p class="navbar-text visible-lg">{{ settings.SITE_TAGLINE }}</p>{% endif %}
-</div>
-<div class="navbar-collapse collapse">
-    {% search_form "all" %}
-    {% page_menu "pages/menus/dropdown.html" %}
-</div>
-</div>
-</div>
 
-<div class="container">
+<div class="off-canvas-wrap" data-offcanvas>
+<div class="inner-wrap">
+<nav class="tab-bar">
 
-{% nevercache %}
-{% if messages %}
-<div class="messages">
-{% for message in messages %}
-<div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    {{ message }}
-</div>
-{% endfor %}
-</div>
-{% endif %}
-{% endnevercache %}
 
-<h1>{% block title %}{% endblock %}</h1>
+    <section class="left tab-bar-section">
 
-<ul class="breadcrumb">
-{% spaceless %}
-{% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
-{% endspaceless %}
-</ul>
 
-</div>
+        <h1 class="title">Foundation</h1>
 
-<div class="container">
+
+    </section>
+
+
+    <section class="right-small">
+        <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+    </section>
+</nav>
+
+
+<aside class="right-off-canvas-menu">
+    <ul class="off-canvas-list">
+        <li><label>Users</label></li>
+        <li><a href="#">Hari Seldon</a></li>
+        <li><a href="#">...</a></li>
+    </ul>
+</aside>
+
+<section class="main-section">
+<!-- content goes here -->
+
+
 <div class="row">
 
-<div class="col-md-2 left">
-    {% block left_panel %}
-    <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
-    {% endblock %}
-</div>
-
-<div class="col-md-7 middle">
-    {% block main %}{% endblock %}
-</div>
-
-<div class="col-md-3 right">
     {% nevercache %}
-    {% include "includes/user_panel.html" %}
-    {% endnevercache %}
-    <div class="panel panel-default">
-    <div class="panel-body">
-    {% block right_panel %}
-    {% ifinstalled mezzanine.twitter %}
-    {% include "twitter/tweets.html" %}
-    {% endifinstalled %}
-    {% endblock %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-dismissable alert-{{ message.tags }}" data-alert="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            {{ message }}
+        </div>
+        {% endfor %}
     </div>
+    {% endif %}
+    {% endnevercache %}
+    s
+    <h1>{% block title %}{% endblock %}</h1>
+
+    <ul class="breadcrumb">
+        {% spaceless %}
+        {% block breadcrumb_menu %}{% page_menu "pages/menus/breadcrumb.html" %}{% endblock %}
+        {% endspaceless %}
+    </ul>
+
+</div>
+
+
+<div class="row">
+    <div class="large-12 columns">
+
+        <div class="row">
+            <div class="large-12 hide-for-small">
+                <div class="orbit-container">
+                    <div id="featured" data-orbit="" class="orbit-slides-container" style="height: 417px;">
+                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 1" alt="slide image" class="active">
+                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 2" alt="slide image">
+                        <img src="http://placehold.it/1200x500&amp;text=Slide Image 3" alt="slide image">
+                    </div>
+                    <a href="#" class="orbit-prev"><span></span></a><a href="#" class="orbit-next"><span></span></a>
+
+                    <div class="orbit-timer paused"><span></span>
+
+                        <div class="orbit-progress" style="width: 27.49%;"></div>
+                    </div>
+                    <div class="orbit-slide-number"><span>1</span> of <span>3</span></div>
+                    <div class="orbit-bullets-container">
+                        <ol class="orbit-bullets">
+                            <li data-orbit-slide="0" class="active"></li>
+                            <li data-orbit-slide="1"></li>
+                            <li data-orbit-slide="2"></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="large-12 columns show-for-small">
+                <img src="http://placehold.it/1200x700&amp;text=Mobile Header">
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="row">
+
+                    <div class="large-4 small-6 columns">
+                        <h4>Upcoming Shows</h4>
+                        <hr>
+                        <div class="row">
+                            <div class="large-1 column">
+                                <img src="http://placehold.it/50x50&amp;text=[img]">
+                            </div>
+                            <div class="large-9 columns">
+                                <h5><a href="#">Venue Name</a></h5>
+                                <h6 class="subheader show-for-small">Doors at 00:00pm</h6>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="hide-for-small">
+                            <div class="row">
+                                <div class="large-1 column">
+                                    <img src="http://placehold.it/50x50&amp;text=[img]">
+                                </div>
+                                <div class="large-9 columns">
+                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="large-1 column">
+                                    <img src="http://placehold.it/50x50&amp;text=[img]">
+                                </div>
+                                <div class="large-9 columns">
+                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="large-1 column">
+                                    <img src="http://placehold.it/50x50&amp;text=[img]">
+                                </div>
+                                <div class="large-9 columns">
+                                    <h5 class="subheader"><a href="#">Venue Name</a></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="large-4 small-6 columns">
+                        <img src="http://placehold.it/300x465&amp;text=Image">
+                    </div>
+
+
+                    <div class="large-4 small-12 columns">
+                        <h4>Blog</h4>
+                        <hr>
+                        <div class="panel">
+                            <h5><a href="#">Post Title 1</a></h5>
+                            <h6 class="subheader">
+                                Risus ligula, aliquam nec fermentum vitae, sollicitudin eget urna. Suspendisse ultrices
+                                ornare tempor...
+                            </h6>
+                            <h6><a href="#">Read More »</a></h6>
+                        </div>
+                        <div class="panel hide-for-small">
+                            <h5><a href="#">Post Title 2 »</a></h5>
+                        </div>
+                        <div class="panel hide-for-small">
+                            <h5><a href="#">Post Title 3 »</a></h5>
+                        </div>
+                        <a href="#" class="right">Go To Blog »</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="row">
+            <div class="large-12 columns">
+                <hr>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <p>© Copyright no one at all. Go to town.</p>
+                    </div>
+                    <div class="large-6 small-12 columns">
+                        <ul class="inline-list right">
+                            <li><a href="#">Link 1</a></li>
+                            <li><a href="#">Link 2</a></li>
+                            <li><a href="#">Link 3</a></li>
+                            <li><a href="#">Link 4</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
     </div>
 </div>
 
-</div>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-2 left">
+            {% block left_panel %}
+            <div class="panel panel-default tree">{% page_menu "pages/menus/tree.html" %}</div>
+            {% endblock %}
+        </div>
+
+        <div class="col-md-7 middle">
+            {% block main %}{% endblock %}
+        </div>
+
+        <div class="col-md-3 right">
+            {% nevercache %}
+            {% include "includes/user_panel.html" %}
+            {% endnevercache %}
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% block right_panel %}
+                    {% ifinstalled mezzanine.twitter %}
+                    {% include "twitter/tweets.html" %}
+                    {% endifinstalled %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
 
 <footer>
-<div class="container">
-{% page_menu "pages/menus/footer.html" %}
+    <div class="container">
+        {% page_menu "pages/menus/footer.html" %}
 
-<div class="row">
-<p class="site-info text-center">
-    {% trans "Powered by" %}
-    <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
-    <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
-    {% trans "and" %}
-    <a href="http://www.djangoproject.com">Django</a>
-    <span class="separator">|</span>
-    {% trans "Theme by" %} <a target="_blank" href="http://getbootstrap.com">Bootstrap</a>
-    {% ifinstalled mezzanine.mobile %}
-    <span class="separator">|</span>
-    <a href="{% url "set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
-    {% endifinstalled %}
-</p>
-</div>
-</div>
+        <div class="row">
+            <p class="site-info text-center">
+                {% trans "Powered by" %}
+                <a href="http://mezzanine.jupo.org">Mezzanine</a>{% ifinstalled cartridge.shop %},
+                <a href="http://cartridge.jupo.org">Cartridge</a>{% endifinstalled %}
+                {% trans "and" %}
+                <a href="http://www.djangoproject.com">Django</a>
+                <span class="separator">|</span>
+                {% trans "Theme by" %} <a target="_blank" href="http://getbootstrap.com">Bootstrap</a>
+                {% ifinstalled mezzanine.mobile %}
+                <span class="separator">|</span>
+                <a href="{% url " set_device" "mobile" %}?next={{ request.path }}">{% trans "View Mobile Site" %}</a>
+                {% endifinstalled %}
+            </p>
+        </div>
+    </div>
 </footer>
 
+
+</section>
+
+<a class="exit-off-canvas"></a>
+
+</div>
+</div>
+
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">{% trans "Toggle Navigation" %}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% if settings.SITE_TITLE %}<a class="navbar-brand" href="/">{{ settings.SITE_TITLE }}</a>{% endif %}
+            {% if settings.SITE_TAGLINE %}<p class="navbar-text visible-lg">{{ settings.SITE_TAGLINE }}</p>{% endif %}
+        </div>
+        <div class="navbar-collapse collapse">
+            {% search_form "all" %}
+            {% page_menu "pages/menus/dropdown.html" %}
+        </div>
+    </div>
+</div>
+
+
+<script src="{{ STATIC_URL }}bower_components/jquery/dist/jquery.min.js"></script>
+
 <script src="http://a.vimeocdn.com/js/froogaloop2.min.js"></script>
- <script src="{{ STATIC_URL }}js/joy.js"></script>
+
+<script src="{{ STATIC_URL }}bower_components/foundation/js/foundation.min.js"></script>
+
+<script src="{{ STATIC_URL }}js/joy.js"></script>
 <script src="{{ STATIC_URL }}js/app.js"></script>
 <script src="{{ STATIC_URL }}js/events.js"></script>
 <script src="{{ STATIC_URL }}js/video/base.js"></script>
