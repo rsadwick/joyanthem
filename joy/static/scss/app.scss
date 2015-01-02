@@ -38,3 +38,29 @@
 //   "foundation/components/type",
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
+
+//panels of different color scheme
+.panel {
+  margin: 0;
+  &:last-child{
+      margin-bottom: 1.25rem;
+    }
+  &.yellow {
+
+    background-color: $yellow;
+
+    &:hover,
+    &:focus {
+      background-color: scale-color($yellow, $lightness: 20%);;
+    }
+
+  }
+  &.green {
+    background-color: $green;
+    &:hover,
+    &:focus {
+      background-color: scale-color($green, $lightness: 20%);;
+    }
+  }
+}
+

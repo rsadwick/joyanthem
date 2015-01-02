@@ -10,19 +10,130 @@
 
 {% block main %}
 {% blocktrans %}
-<h2>Sup!</h2>
-<p>
-    Welcome to your new Mezzanine powered website.
-    Here are some quick links to get you started:
-</p>
-<ul>
-    <li><a href="/admin/">Log in to the admin interface</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/content-architecture.html">Creating custom page types</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#templates">Modifying HTML templates</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html#why-isn-t-the-homepage-a-page-object-i-can-edit-via-the-admin">Changing this homepage</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/frequently-asked-questions.html">Other frequently asked questions</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/configuration.html#default-settings">Full list of settings</a></li>
-    <li><a href="http://mezzanine.jupo.org/docs/deployment.html">Deploying to a production server</a></li>
-</ul>
+<div class="row">
+    <div class="large-12 columns">
+
+        <div class="row">
+            <div class="large-12 columns">
+                <ul class="example-orbit" data-orbit>
+                    <li><img src="http://placehold.it/1000x400&amp;text=[%20img%201%20]"></li>
+                    <li><img src="http://placehold.it/1000x400&amp;text=[%20img%202%20]"></li>
+                    <li><img src="http://placehold.it/1000x400&amp;text=[%20img%203%20]"></li>
+                </ul>
+            </div>
+        </div>
+        <hr/>
+
+
+        <div class="row">
+            <div class="large-12 columns show-for-small">
+                <img src="http://placehold.it/1200x700&amp;text=Mobile Header">
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="row">
+
+                    <div class="large-3 small-6 columns">
+                        <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                        <ul class="panel yellow small-block-grid-4">
+                            <li>test</li>
+                            <li>test 2</li>
+                            <li>test 2</li>
+                            <li>test 2</li>
+                        </ul>
+                        <ul class="panel white small-block-grid-2">
+                            <li>test</li>
+                            <li>test 2</li>
+
+                        </ul>
+                    </div>
+
+
+                    <div class="large-3 small-6 columns">
+                        <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                        <h6 class="panel green">Description</h6>
+                    </div>
+                    <div class="large-3 small-6 columns">
+                        <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                        <h6 class="panel">Description</h6>
+                    </div>
+                    <div class="large-3 small-6 columns">
+                        <img src="http://placehold.it/250x250&amp;text=Thumbnail">
+                        <h6 class="panel">Description</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="large-12 columns">
+                <div class="row">
+
+                    <div class="large-8 columns">
+                        <div class="panel radius yellow">
+                            <div class="row">
+                                <div class="large-6 small-6 columns">
+                                    <h4>Header</h4>
+                                    <hr>
+                                    <h5 class="subheader">Risus ligula, aliquam nec fermentum vitae, sollicitudin
+                                        eget
+                                        urna. Donec
+                                        dignissim nibh fermentum odio ornare sagittis.</h5>
+
+                                    <div class="show-for-small" style="text-align: center">
+                                        <a class="small radius button" href="#">Call To Action!</a><br>
+                                        <a class="small radius button" href="#">Call To Action!</a>
+                                    </div>
+                                </div>
+                                <div class="large-6 small-6 columns">
+                                    <p>Suspendisse ultrices ornare tempor. Aenean eget ultricies libero. Phasellus
+                                        non
+                                        ipsum eros. Vivamus
+                                        at dignissim massa. Aenean dolor libero, blandit quis interdum et, malesuada
+                                        nec
+                                        ligula. Nullam erat
+                                        erat, eleifend sed pulvinar ac. Suspendisse ultrices ornare tempor. Aenean
+                                        eget
+                                        ultricies libero.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="large-4 columns panel hide-for-small">
+                        <h4>Get In Touch!</h4>
+                        <a href="#" class="button expand radius alert">Alert Button</a>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="row">
+            <div class="large-12 columns">
+                <hr>
+                <div class="row">
+                    <div class="large-6 columns">
+                        <p>© Copyright no one at all. Go to town.</p>
+                    </div>
+                    <div class="large-6 small-12 columns">
+                        <ul class="inline-list right">
+                            <li><a href="#">Link 1</a></li>
+                            <li><a href="#">Link 2</a></li>
+                            <li><a href="#">Link 3</a></li>
+                            <li><a href="#">Link 4</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+</div>
+
 {% endblocktrans %}
 {% endblock %}
