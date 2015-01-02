@@ -39,6 +39,25 @@
 //   "foundation/components/offcanvas",
 //   "foundation/components/visibility";
 
+//row full column to remove margin/padding
+.row.full-column, .full-column{
+  margin: 0;
+  padding: 0;
+}
+
+//hero
+.hero{
+
+  background: #fff;
+
+  & img{
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+}
+
+
 //panels of different color scheme
 .panel {
   margin: 0;
