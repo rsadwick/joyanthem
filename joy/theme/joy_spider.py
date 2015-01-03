@@ -128,7 +128,12 @@ def get_song_details(url):
             except KeyError, e:
                 d = e
 
+        #lyrics
+        get_lyrics = soup.find_all(id="lyrics_txt")
+        for lyrics in get_lyrics:
+            print(lyrics.find_all("p", "lyrics"))
+
     print("***** end song ****")
 
-
+#start up
 get_listing()
