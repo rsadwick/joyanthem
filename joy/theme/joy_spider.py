@@ -24,18 +24,14 @@ def get_listing():
         urls_group = soup.find_all("div", "result_row")
 
         for click in urls_group:
-            #print click['onclick'].split("'")[1]
             get_artist_details(click['onclick'].split("'")[1])
 
 
 def get_artist_details(url):
-    #print(base_url + url)
     soup = scrape(base_url + url)
 
     if soup is not None:
-
         urls_group = soup.find_all("p", "lyrics")
-
         artist_url = urls_group[0].find_all("a")
 
         for artist in artist_url:
@@ -48,8 +44,8 @@ def get_albums(url):
 
     if soup is not None:
         urls_group = soup.find_all("div", "result_row")
-
         info = soup.find_all("div", id="info_txt")
+
         for string in info:
             print string.text, string.next_sibling
 
@@ -67,7 +63,6 @@ def get_album_details(url):
         for title_markup in get_title:
             for album_title in title_markup.find_all("b")[:1]:
                 print (album_title.text)
-
 
         #urls for buying the music
         get_urls = soup.find_all("a")
@@ -137,5 +132,3 @@ def get_song_details(url):
 
 
 get_listing()
-
-
