@@ -5,6 +5,7 @@ from django.utils.datetime_safe import date
 from django.views.generic import ListView, CreateView, DetailView
 from requests import request
 from joy.theme.models import SongOfTheDay, Artist, Song
+from joy.theme import joy_spider
 
 
 class SongList(ListView):
@@ -35,3 +36,7 @@ class AllArtistList(ListView):
 def get_captions(request, song_id):
     current_song = get_object_or_404(Song, pk=song_id)
     return HttpResponse(current_song.captions)
+
+def browse(request):
+    spider = joy_spider.JoySpider()
+    return HttpResponse("Snappers")

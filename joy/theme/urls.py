@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.conf.urls import patterns, url
 
 
-from joy.theme.views import ListView, SongList, ArtistDetail, get_captions, SongOfTheDayList, AllArtistList
+from joy.theme.views import ListView, SongList, ArtistDetail, get_captions, SongOfTheDayList, AllArtistList, browse
 
 
 urlpatterns = patterns("",
@@ -12,4 +12,5 @@ urlpatterns = patterns("",
    url(r'^services/(?P<song_id>[0-9]+)/$', get_captions, name='get_captions'),
    url(r'^sotd/$', SongOfTheDayList.as_view(), name='songoftheday_listing'),
    url(r'^artists/$', AllArtistList.as_view(), name='get_artists'),
+   url(r'^browse/$', browse, name='browse'),
 )
