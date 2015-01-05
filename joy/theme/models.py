@@ -12,7 +12,7 @@ class Artist(models.Model):
     youtube = models.CharField(max_length=200, blank=True, null=True)
     vimeo = models.CharField(max_length=200, blank=True, null=True)
     content = RichTextField(("Content"), blank=True, null=True)
-    slug = models.CharField(max_length=400)
+    slug = models.SlugField(max_length=400)
 
     def __unicode__(self):
         return self.name
@@ -26,6 +26,7 @@ class Song(models.Model):
     content = RichTextField(("Content"), blank=True, null=True)
     video_content = models.CharField(max_length=200, blank=True, null=True)
     video_type = models.ForeignKey("VideoType", blank=True, null=True)
+    slug = models.SlugField(max_length=400)
 
     def __unicode__(self):
         return self.name
@@ -39,6 +40,7 @@ class Album(models.Model):
     content = RichTextField(("Content"), blank=True)
     amazon_buy_url = models.CharField(max_length=400, blank=True, null=True)
     itunes_buy_url = models.CharField(max_length=400, blank=True, null=True)
+    slug = models.SlugField(max_length=400)
 
     def __unicode__(self):
         return self.name
