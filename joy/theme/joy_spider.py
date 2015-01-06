@@ -2,7 +2,7 @@ import urllib2
 
 from bs4 import BeautifulSoup
 #from joy.theme.models import Artist, Album, Song
-from .models import Artist
+from .models import Artist, Album
 from django.template.defaultfilters import slugify
 
 class JoySpider(object):
@@ -61,23 +61,21 @@ class JoySpider(object):
 
                     #insert artist by slug
                     current_artist, created = Artist.objects.get_or_create(slug=artist_slug)
-                    current_artist.name = artist_name.text
-
-                    current_artist.save()
 
             info = soup.find_all("div", id="info_txt")
 
             #artist about
             for string in info:
-                print string.text, string.next_sibling
+                current_artist.content = string.text, string.next_sibling
+                current_artist.save()
 
 
             for click in urls_group:
-                #self.get_album_details(click['onclick'].split("'")[1])
+                self.get_album_details(click['onclick'].split("'")[1], artist_slug)
                 print('done')
 
 
-    def get_album_details(self, url):
+    def get_album_details(self, url, artist_slug):
         soup = self.scrape(self.base_url + url)
 
         if soup is not None:
@@ -87,6 +85,19 @@ class JoySpider(object):
             for title_markup in get_title:
                 for album_title in title_markup.find_all("b")[:1]:
                     print (album_title.text)
+                    album_slug = slugify(album_title.text)
+                    current_album, created = Album.objects.get_or_create(slug=album_slug)
+                    current_album.name = album_title.text
+
+                    #artist_id = Artist.objects.get(slug=artist_slug).id
+
+                    current_album.save()
+
+                    album_id = Album.objects.get(slug=album_slug).id
+                    current_artist = Artist.objects.get(slug=artist_slug)
+
+                    current_artist.album.add(Album.objects.get_or_create(pk=album_id))
+                    current_artist.save()
 
             #urls for buying the music
             get_urls = soup.find_all("a")
@@ -114,7 +125,8 @@ class JoySpider(object):
                     print(cleaned_song)
                     #active song - get details
                     for link in song_title.find_all("a"):
-                        self.get_song_details(link.get('href'))
+                        #self.get_song_details(link.get('href'))
+                        print('enable songs')
 
 
     def get_song_details(self, url):

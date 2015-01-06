@@ -3,7 +3,7 @@ from mezzanine.core.fields import RichTextField
 
 class Artist(models.Model):
     name = models.CharField(max_length=200)
-    album = models.ManyToManyField("Album", related_name="ArtistAlbum", blank=True, null=True)
+    album = models.ManyToManyField("Album", related_name="Album", blank=True, null=True)
     web_site = models.CharField(max_length=200, blank=True, null=True)
     twitter_handle = models.CharField(max_length=100, blank=True, null=True)
     facebook = models.CharField(max_length=200, blank=True, null=True)
@@ -34,7 +34,6 @@ class Song(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=200)
-    artist = models.ManyToManyField("Artist", related_name="AlbumArtist", blank=True, null=True)
     song = models.ManyToManyField("Song", related_name="AlbumSong", blank=True, null=True)
     #cover = models.ImageField(upload_to="artists")
     content = RichTextField(("Content"), blank=True)
