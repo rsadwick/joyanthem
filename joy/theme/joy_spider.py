@@ -2,7 +2,7 @@ import urllib2
 
 from bs4 import BeautifulSoup
 #from joy.theme.models import Artist, Album, Song
-from .models import Artist, Album
+from .models import Artist, Album, Song
 from django.template.defaultfilters import slugify
 
 class JoySpider(object):
@@ -61,6 +61,8 @@ class JoySpider(object):
 
                     #insert artist by slug
                     current_artist, created = Artist.objects.get_or_create(slug=artist_slug)
+                    current_artist.name = artist_name.text
+                    print(artist_name.text)
 
             info = soup.find_all("div", id="info_txt")
 
@@ -94,10 +96,10 @@ class JoySpider(object):
                     current_album.save()
 
                     album_id = Album.objects.get(slug=album_slug).id
-                    current_artist = Artist.objects.get(slug=artist_slug)
+                    current_artist2 = Artist.objects.get(slug=artist_slug)
 
-                    current_artist.album.add(Album.objects.get_or_create(pk=album_id))
-                    current_artist.save()
+                    current_artist2.album.add(Album.objects.get(pk=album_id))
+                    current_artist2.save()
 
             #urls for buying the music
             get_urls = soup.find_all("a")
@@ -122,22 +124,30 @@ class JoySpider(object):
                 for cleaned_song in song_title.find_all("td")[1]:
                     print("***** !!!! songy ***** ")
                     #other songs - insert title
-                    print(cleaned_song)
+                    #song_text = cleaned_song.text
                     #active song - get details
                     for link in song_title.find_all("a"):
-                        #self.get_song_details(link.get('href'))
-                        print('enable songs')
+                        self.get_song_details(link.get('href'), artist_slug, album_slug, link.text)
 
 
-    def get_song_details(self, url):
+
+    def get_song_details(self, url, artist_slug, album_slug, song_name):
         soup = self.scrape(self.base_url + url)
 
+
         if soup is not None:
+
+            #start building song:
+            song_slug = slugify(song_name)
+            current_song, created = Song.objects.get_or_create(slug=song_slug)
+            current_song.name = song_name
+
             #audio
             audio = soup.find_all('audio')
 
             for audio_src in audio:
                 print(audio_src.get("src"))
+                current_song.audio = audio_src.get("src")
 
             #video
             iframe = soup.find_all('iframe')
@@ -146,6 +156,7 @@ class JoySpider(object):
                 for video in iframe:
                     if 'youtube' in video['src']:
                         print(video['src'])
+                        current_song.video_content = video['src']
             except KeyError, e:
                 d = e
 
@@ -167,6 +178,31 @@ class JoySpider(object):
             #lyrics
             get_lyrics = soup.find_all(id="lyrics_txt")
             for lyrics in get_lyrics:
-                print(lyrics.find_all("p", "lyrics"))
+                current_song.lyrics = lyrics.find_all("p", "lyrics")
+
+
+            album_id = Album.objects.get(slug=album_slug).id
+            artist_id = Artist.objects.get(slug=artist_slug).id
+            current_song.artist.add(Artist.objects.get(pk=artist_id))
+            current_song.save()
+
+            #saved_song = Song.objects.get(slug=song_slug)
+
+            #artist_id = Artist.objects.get(slug=artist_slug).id
+
+
+            #saved_song.save()
+
+
+
+            song_id = Song.objects.get(slug=song_slug).id
+            #add song to album
+            current_album = Album.objects.get(slug=album_slug)
+            current_album.song.add(Song.objects.get(pk=song_id))
+            current_album.save()
+
+
+
+
 
         print("***** end song ****")

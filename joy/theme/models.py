@@ -19,14 +19,16 @@ class Artist(models.Model):
 
 class Song(models.Model):
     name = models.CharField(max_length=300)
-    artist = models.ForeignKey("Artist", blank=True, null=True)
-    album = models.ManyToManyField("Album", related_name="AlbumSong", blank=True, null=True)
-    lyrics = models.FileField(upload_to="lyrics", blank=True, null=True)
+    artist = models.ManyToManyField("Artist", related_name="Artist", blank=True, null=True)
+    #album = models.ManyToManyField("Album", related_name="AlbumSong", blank=True, null=True)
+    #lyrics = models.FileField(upload_to="lyrics", blank=True, null=True)
+    lyrics = models.TextField()
     captions = models.FileField(upload_to="captions", blank=True, null=True)
     content = RichTextField(("Content"), blank=True, null=True)
     video_content = models.CharField(max_length=200, blank=True, null=True)
     video_type = models.ForeignKey("VideoType", blank=True, null=True)
     slug = models.SlugField(max_length=400)
+    audio = models.CharField(max_length=600)
 
     def __unicode__(self):
         return self.name
@@ -34,7 +36,7 @@ class Song(models.Model):
 
 class Album(models.Model):
     name = models.CharField(max_length=200)
-    song = models.ManyToManyField("Song", related_name="AlbumSong", blank=True, null=True)
+    song = models.ManyToManyField("Song", related_name="Song", blank=True, null=True)
     #cover = models.ImageField(upload_to="artists")
     content = RichTextField(("Content"), blank=True)
     amazon_buy_url = models.CharField(max_length=400, blank=True, null=True)
