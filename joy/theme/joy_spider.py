@@ -12,7 +12,6 @@ class JoySpider(object):
         self.base_url = "http://www.invubu.com"
         self.get_listing()
 
-
     def scrape(self, url):
         req = urllib2.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         try:
@@ -87,12 +86,10 @@ class JoySpider(object):
             for title_markup in get_title:
                 for album_title in title_markup.find_all("b")[:1]:
                     print (album_title.text)
+                    #save album info
                     album_slug = slugify(album_title.text)
                     current_album, created = Album.objects.get_or_create(slug=album_slug)
                     current_album.name = album_title.text
-
-                    #artist_id = Artist.objects.get(slug=artist_slug).id
-
                     current_album.save()
 
                     album_id = Album.objects.get(slug=album_slug).id
@@ -181,28 +178,17 @@ class JoySpider(object):
                 current_song.lyrics = lyrics.find_all("p", "lyrics")
 
 
-            album_id = Album.objects.get(slug=album_slug).id
+            #artist id
             artist_id = Artist.objects.get(slug=artist_slug).id
+            #add artist to song
             current_song.artist.add(Artist.objects.get(pk=artist_id))
             current_song.save()
 
-            #saved_song = Song.objects.get(slug=song_slug)
-
-            #artist_id = Artist.objects.get(slug=artist_slug).id
-
-
-            #saved_song.save()
-
-
-
+            #get song id
             song_id = Song.objects.get(slug=song_slug).id
             #add song to album
             current_album = Album.objects.get(slug=album_slug)
             current_album.song.add(Song.objects.get(pk=song_id))
             current_album.save()
-
-
-
-
 
         print("***** end song ****")
