@@ -122,15 +122,33 @@ class JoySpider(object):
             print("***** song ****")
             for song_title in get_songs:
                 for cleaned_song in song_title.find_all("td")[1]:
-                    print("***** !!!! songy ***** ")
-                    #other songs - insert title
-                    #song_text = cleaned_song.text
-                    #active song - get details
-                    if song_title.find_all("a"):
-                        for link in song_title.find_all("a"):
-                            self.get_song_details(link.get('href'), artist_slug, album_slug, link.text, True)
-                    else:
-                         self.get_song_details(None, artist_slug, album_slug, cleaned_song, False)
+                    print("***** !!!! songy ***** " + str(cleaned_song))
+                    #check for anchors or text.  if only text - no details other than song name/slug are created.
+                    #if song_title.find_all("a") is not None:
+                    #for link in cleaned_song:
+
+
+                    try:
+                        td_tag_list = cleaned_song.find_all(lambda tag:tag.name == "a")
+
+                        if td_tag_list:
+                            self.get_song_details(td_tag_list.get('href'), artist_slug, album_slug, td_tag_list.text, True)
+
+                    except AttributeError:
+                        self.get_song_details(None, artist_slug, album_slug, cleaned_song, False)
+
+                    #for link in song_title.find_all("a"):
+                       # self.get_song_details(link.get('href'), artist_slug, album_slug, link.text, True)
+
+
+
+
+                #for cleaned_song in song_title.find_all("td").contents:
+                 #   for content in cleaned_song:
+                 #       self.get_song_details(None, artist_slug, album_slug, content, False)
+
+
+
 
 
 
@@ -139,8 +157,8 @@ class JoySpider(object):
         song_slug = slugify(song_name)
         current_song, created = Song.objects.get_or_create(slug=song_slug)
         current_song.name = song_name
-        print ("-=------------ SONG NAME ----------------" + song_name)
-        if isPlayed:
+        #print ("-=------------ SONG NAME ----------------" + song_name)
+        if isPlayed == True:
             soup = self.scrape(self.base_url + url)
 
             if soup is not None:
@@ -183,7 +201,8 @@ class JoySpider(object):
                 for lyrics in get_lyrics:
                     current_song.lyrics = lyrics.find_all("p", "lyrics")
 
-
+        else:
+            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + song_slug)
 
         #artist id
         artist_id = Artist.objects.get(slug=artist_slug).id
