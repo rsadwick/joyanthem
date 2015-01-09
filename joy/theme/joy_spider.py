@@ -49,9 +49,9 @@ class JoySpider(object):
         soup = self.scrape(self.base_url + url)
 
         if soup is not None:
-            urls_group = soup.find_all("div", "result_row")
+            urls_group = soup.find_all(id="solo_albums_txt")
 
-             #artist_name
+            #artist_name
             get_artist_name = soup.find_all("p", "song")
 
             for name_markup in get_artist_name:
@@ -70,10 +70,13 @@ class JoySpider(object):
                 current_artist.content = string.text, string.next_sibling
                 current_artist.save()
 
-
+            #all_albums = urls_group.
             for click in urls_group:
-                self.get_album_details(click['onclick'].split("'")[1], artist_slug)
-                print('done')
+                album_rows = click.find_all("div", "result_row")
+                for album in album_rows:
+
+                    self.get_album_details(album['onclick'].split("'")[1], artist_slug)
+                    print('done')
 
 
     def get_album_details(self, url, artist_slug):
@@ -123,72 +126,75 @@ class JoySpider(object):
                     #other songs - insert title
                     #song_text = cleaned_song.text
                     #active song - get details
-                    for link in song_title.find_all("a"):
-                        self.get_song_details(link.get('href'), artist_slug, album_slug, link.text)
+                    if song_title.find_all("a"):
+                        for link in song_title.find_all("a"):
+                            self.get_song_details(link.get('href'), artist_slug, album_slug, link.text, True)
+                    else:
+                         self.get_song_details(None, artist_slug, album_slug, cleaned_song, False)
 
 
 
-    def get_song_details(self, url, artist_slug, album_slug, song_name):
-        soup = self.scrape(self.base_url + url)
+    def get_song_details(self, url, artist_slug, album_slug, song_name, isPlayed):
+        #start building song:
+        song_slug = slugify(song_name)
+        current_song, created = Song.objects.get_or_create(slug=song_slug)
+        current_song.name = song_name
+        print ("-=------------ SONG NAME ----------------" + song_name)
+        if isPlayed:
+            soup = self.scrape(self.base_url + url)
 
+            if soup is not None:
 
-        if soup is not None:
+                #audio
+                audio = soup.find_all('audio')
 
-            #start building song:
-            song_slug = slugify(song_name)
-            current_song, created = Song.objects.get_or_create(slug=song_slug)
-            current_song.name = song_name
+                for audio_src in audio:
+                    print(audio_src.get("src"))
+                    current_song.audio = audio_src.get("src")
 
-            #audio
-            audio = soup.find_all('audio')
+                #video
+                iframe = soup.find_all('iframe')
 
-            for audio_src in audio:
-                print(audio_src.get("src"))
-                current_song.audio = audio_src.get("src")
-
-            #video
-            iframe = soup.find_all('iframe')
-
-            try:
-                for video in iframe:
-                    if 'youtube' in video['src']:
-                        print(video['src'])
-                        current_song.video_content = video['src']
-            except KeyError, e:
-                d = e
-
-            get_urls = soup.find_all("a")
-            for song_url in get_urls:
                 try:
-                    if 'itunes' in song_url['href']:
-                        print(song_url['href'].split('?')[0])
-
-                    if 'amazon' in song_url['href']:
-                        print(song_url['href'].split('&tag')[0])
-
-                    if 'play.google' in song_url['href']:
-                        print(song_url['href'])
-
+                    for video in iframe:
+                        if 'youtube' in video['src']:
+                            print(video['src'])
+                            current_song.video_content = video['src']
                 except KeyError, e:
                     d = e
 
-            #lyrics
-            get_lyrics = soup.find_all(id="lyrics_txt")
-            for lyrics in get_lyrics:
-                current_song.lyrics = lyrics.find_all("p", "lyrics")
+                get_urls = soup.find_all("a")
+                for song_url in get_urls:
+                    try:
+                        if 'itunes' in song_url['href']:
+                            print(song_url['href'].split('?')[0])
+
+                        if 'amazon' in song_url['href']:
+                            print(song_url['href'].split('&tag')[0])
+
+                        if 'play.google' in song_url['href']:
+                            print(song_url['href'])
+
+                    except KeyError, e:
+                        d = e
+
+                #lyrics
+                get_lyrics = soup.find_all(id="lyrics_txt")
+                for lyrics in get_lyrics:
+                    current_song.lyrics = lyrics.find_all("p", "lyrics")
 
 
-            #artist id
-            artist_id = Artist.objects.get(slug=artist_slug).id
-            #add artist to song
-            current_song.artist.add(Artist.objects.get(pk=artist_id))
-            current_song.save()
 
-            #get song id
-            song_id = Song.objects.get(slug=song_slug).id
-            #add song to album
-            current_album = Album.objects.get(slug=album_slug)
-            current_album.song.add(Song.objects.get(pk=song_id))
-            current_album.save()
+        #artist id
+        artist_id = Artist.objects.get(slug=artist_slug).id
+        #add artist to song
+        current_song.artist.add(Artist.objects.get(pk=artist_id))
+        current_song.save()
+        #get song id
+        song_id = Song.objects.get(slug=song_slug).id
+        #add song to album
+        current_album = Album.objects.get(slug=album_slug)
+        current_album.song.add(Song.objects.get(pk=song_id))
+        current_album.save()
 
         print("***** end song ****")
