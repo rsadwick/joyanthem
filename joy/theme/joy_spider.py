@@ -115,7 +115,7 @@ class JoySpider(object):
                         print(album_url['href'])
 
                 except KeyError, e:
-                    d = e
+                    pass
 
             #snag songs
             get_songs = soup.find_all(id="album_songs_txt")
@@ -159,30 +159,30 @@ class JoySpider(object):
                             print(video['src'])
                             current_song.video_content = video['src']
                 except KeyError, e:
-                    d = e
+                    pass
 
                 get_urls = soup.find_all("a")
                 for song_url in get_urls:
                     try:
                         if 'itunes' in song_url['href']:
-                            print(song_url['href'].split('?')[0])
+                            current_song.itunes_url = song_url['href']
+                            #print(song_url['href'].split('?')[0])
 
                         if 'amazon' in song_url['href']:
-                            print(song_url['href'].split('&tag')[0])
+                            current_song.amazon_url = song_url['href']
+                            #print(song_url['href'].split('&tag')[0])
 
                         if 'play.google' in song_url['href']:
-                            print(song_url['href'])
+                            current_song.google_url = song_url['href']
+                            #print(song_url['href'])
 
                     except KeyError, e:
-                        d = e
+                        pass
 
                 #lyrics
                 get_lyrics = soup.find_all(id="lyrics_txt")
                 for lyrics in get_lyrics:
                     current_song.lyrics = lyrics.find_all("p", "lyrics")
-
-        else:
-            print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " + song_slug)
 
         #artist id
         artist_id = Artist.objects.get(slug=artist_slug).id

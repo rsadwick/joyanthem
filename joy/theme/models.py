@@ -20,8 +20,6 @@ class Artist(models.Model):
 class Song(models.Model):
     name = models.CharField(max_length=300)
     artist = models.ManyToManyField("Artist", related_name="Artist", blank=True, null=True)
-    #album = models.ManyToManyField("Album", related_name="AlbumSong", blank=True, null=True)
-    #lyrics = models.FileField(upload_to="lyrics", blank=True, null=True)
     lyrics = models.TextField()
     captions = models.FileField(upload_to="captions", blank=True, null=True)
     content = RichTextField(("Content"), blank=True, null=True)
@@ -29,6 +27,9 @@ class Song(models.Model):
     video_type = models.ForeignKey("VideoType", blank=True, null=True)
     slug = models.SlugField(max_length=400)
     audio = models.CharField(max_length=600)
+    itunes_url = models.CharField(max_length=800)
+    amazon_url = models.CharField(max_length=800)
+    google_url = models.CharField(max_length=800)
 
     def __unicode__(self):
         return self.name
