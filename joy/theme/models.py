@@ -26,10 +26,10 @@ class Song(models.Model):
     video_content = models.CharField(max_length=200, blank=True, null=True)
     video_type = models.ForeignKey("VideoType", blank=True, null=True)
     slug = models.SlugField(max_length=400)
-    audio = models.CharField(max_length=600)
-    itunes_url = models.CharField(max_length=800)
-    amazon_url = models.CharField(max_length=800)
-    google_url = models.CharField(max_length=800)
+    audio = models.CharField(max_length=600, blank=True, null=True)
+    itunes_url = models.CharField(max_length=800, blank=True, null=True)
+    amazon_url = models.CharField(max_length=800, blank=True, null=True)
+    google_url = models.CharField(max_length=800, blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -40,8 +40,9 @@ class Album(models.Model):
     song = models.ManyToManyField("Song", related_name="Song", blank=True, null=True)
     #cover = models.ImageField(upload_to="artists")
     content = RichTextField(("Content"), blank=True)
-    amazon_buy_url = models.CharField(max_length=400, blank=True, null=True)
-    itunes_buy_url = models.CharField(max_length=400, blank=True, null=True)
+    amazon_buy_url = models.CharField(max_length=800, blank=True, null=True)
+    itunes_buy_url = models.CharField(max_length=800, blank=True, null=True)
+    google_buy_url = models.CharField(max_length=800, blank=True, null=True)
     slug = models.SlugField(max_length=400)
 
     def __unicode__(self):

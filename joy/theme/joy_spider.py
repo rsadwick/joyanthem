@@ -1,7 +1,6 @@
 import urllib2
 
 from bs4 import BeautifulSoup
-#from joy.theme.models import Artist, Album, Song
 from .models import Artist, Album, Song
 from django.template.defaultfilters import slugify
 
@@ -106,13 +105,16 @@ class JoySpider(object):
             for album_url in get_urls:
                 try:
                     if 'itunes' in album_url['href']:
-                        print(album_url['href'].split('?')[0])
+                        current_album.itunes_buy_url = album_url['href'].split('?')[0]
+                        #print(album_url['href'].split('?')[0])
 
                     if 'amazon' in album_url['href']:
-                        print(album_url['href'].split('&tag')[0])
+                        current_album.amazon_buy_url = album_url['href'].split('&tag')[0]
+                        #print(album_url['href'].split('&tag')[0])
 
                     if 'play.google' in album_url['href']:
-                        print(album_url['href'])
+                        current_album.google_buy_url = album_url['href']
+                        #print(album_url['href'])
 
                 except KeyError, e:
                     pass
@@ -165,16 +167,19 @@ class JoySpider(object):
                 for song_url in get_urls:
                     try:
                         if 'itunes' in song_url['href']:
-                            current_song.itunes_url = song_url['href']
-                            #print(song_url['href'].split('?')[0])
+                            current_song.itunes_url = song_url['href'].split('?')[0]
 
                         if 'amazon' in song_url['href']:
-                            current_song.amazon_url = song_url['href']
-                            #print(song_url['href'].split('&tag')[0])
+
+                            removal_part = 'invubu-20'
+                            amazon_url = song_url['href'].split('&tag')[0]
+                            if amazon_url.endswith(removal_part):
+                                amazon_url = url[:-len(removal_part)]
+
+                            current_song.amazon_url = amazon_url
 
                         if 'play.google' in song_url['href']:
                             current_song.google_url = song_url['href']
-                            #print(song_url['href'])
 
                     except KeyError, e:
                         pass
