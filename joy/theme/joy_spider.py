@@ -104,6 +104,7 @@ class JoySpider(object):
                     album_slug = slugify(album_title.text)
                     current_album, created = Album.objects.get_or_create(slug=album_slug)
                     current_album.name = album_title.text
+                    current_album.save()
 
                     album_id = Album.objects.get(slug=album_slug).id
                     current_artist2 = Artist.objects.get(slug=artist_slug)
