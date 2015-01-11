@@ -1,5 +1,5 @@
 import urllib2
-
+import tinys3
 from bs4 import BeautifulSoup
 from .models import Artist, Album, Song
 from django.template.defaultfilters import slugify
@@ -20,6 +20,18 @@ class JoySpider(object):
         except urllib2.HTTPError, e:
             print ("!!!!!!!!!! 404 : : : " + url)
             return None
+
+    def insert_images(self, local_image, image_url):
+        #download image from envato
+        image_file = open(local_image, 'wb')
+        img_url = 'http://' + image_url.split('://')[-1]
+        image_file.write(urllib2.urlopen(img_url).read())
+        image_file.close()
+
+        #upload to s3
+        aws_connection = tinys3.Connection('AKIAJNJVDJ2TL75JXGTA', 'nwB4Oo+HXNbeZRYhxRvy1N+ry9W+EPu/cFFBq2sk', tls=True, endpoint='s3.amazonaws.com')
+        file = open(local_image, 'rb')
+        aws_connection.upload(local_image, file, 'img.joyanthem.com/album_art')
 
 
     def get_listing(self):
@@ -92,7 +104,6 @@ class JoySpider(object):
                     album_slug = slugify(album_title.text)
                     current_album, created = Album.objects.get_or_create(slug=album_slug)
                     current_album.name = album_title.text
-                    current_album.save()
 
                     album_id = Album.objects.get(slug=album_slug).id
                     current_artist2 = Artist.objects.get(slug=artist_slug)
@@ -119,6 +130,11 @@ class JoySpider(object):
                 except KeyError, e:
                     pass
 
+
+            #save album:
+            #current_album.save()
+
+
             #snag songs
             get_songs = soup.find_all(id="album_songs_txt")
 
@@ -139,7 +155,10 @@ class JoySpider(object):
         song_slug = slugify(song_name)
         current_song, created = Song.objects.get_or_create(slug=song_slug)
         current_song.name = song_name
-        #print ("-=------------ SONG NAME ----------------" + song_name)
+
+        #query album that the song lives on
+        current_album = Album.objects.get(slug=album_slug)
+
         if isPlayed == True:
             soup = self.scrape(self.base_url + url)
 
@@ -184,6 +203,23 @@ class JoySpider(object):
                     except KeyError, e:
                         pass
 
+                #snag artist image
+                soup_to_str = str(soup)
+                image_url = soup_to_str.split('var image_src500 =', 1)[1]
+                image_url = image_url.split(";")[0]
+                image_url = image_url.replace("'", "")
+                image_url = image_url.replace(" ", "")
+
+                img_domain = 'http://www.invubu.com'
+                absolute_img_url =  img_domain + image_url
+                print absolute_img_url
+                #only image name + ext
+                image_src = image_url.rsplit('/', 1)[1]
+
+                current_album.art = 'album_art/' + image_src
+                #download image and insert into s3
+                self.insert_images(image_src, absolute_img_url)
+
                 #lyrics
                 get_lyrics = soup.find_all(id="lyrics_txt")
                 for lyrics in get_lyrics:
@@ -197,7 +233,7 @@ class JoySpider(object):
         #get song id
         song_id = Song.objects.get(slug=song_slug).id
         #add song to album
-        current_album = Album.objects.get(slug=album_slug)
+
         current_album.song.add(Song.objects.get(pk=song_id))
         current_album.save()
 

@@ -38,7 +38,7 @@ class Song(models.Model):
 class Album(models.Model):
     name = models.CharField(max_length=200)
     song = models.ManyToManyField("Song", related_name="Song", blank=True, null=True)
-    #cover = models.ImageField(upload_to="artists")
+    art = models.ImageField(upload_to="album_art")
     content = RichTextField(("Content"), blank=True)
     amazon_buy_url = models.CharField(max_length=800, blank=True, null=True)
     itunes_buy_url = models.CharField(max_length=800, blank=True, null=True)
