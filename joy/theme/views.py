@@ -22,6 +22,13 @@ class ArtistDetail(DetailView):
         #context['now'] = timezone.now()
         return context
 
+class SongDetail(DetailView):
+    model = Song
+
+    def get_context_data(self, **kwargs):
+        context = super(SongDetail, self).get_context_data(**kwargs)
+        return context
+
 class LinkDetail(DetailView):
     model = SongOfTheDay
 

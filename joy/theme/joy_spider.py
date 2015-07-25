@@ -1,14 +1,16 @@
 import urllib2
 import tinys3
 from bs4 import BeautifulSoup
-from .models import Artist, Album, Song
+#from .models import Artist, Album, Song
 from django.template.defaultfilters import slugify
+from .models import Album, Artist, Song
 
 class JoySpider(object):
 
     def __init__(self):
         #start up
         self.base_url = "http://www.invubu.com"
+        print ("starting")
         self.get_listing()
 
     def scrape(self, url):
@@ -36,7 +38,7 @@ class JoySpider(object):
 
     def get_listing(self):
         #get songs from list
-        soup = self.scrape(self.base_url + "/radio/joyfmfl/playlist/2015-01-02.html")
+        soup = self.scrape(self.base_url + "/radio/joyfmfl/playlist/2015-07-25.html")
         if soup is not None:
             urls_group = soup.find_all("div", "result_row")
 

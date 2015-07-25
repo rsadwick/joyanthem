@@ -8,14 +8,7 @@
 {% block main %}
 
 
-    <h2>all artists</h2>
-    <ul>
-        {% for artist in object_list %}
-            <li><a href="/artist/{{ artist.slug }}">{{ artist.name }}</a></li>
-
-        {% endfor %}
-
-    </ul>
+<h1>{{ song.name }}</h1>
 
 
 {% endblock %}

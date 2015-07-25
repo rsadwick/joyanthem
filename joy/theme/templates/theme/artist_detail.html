@@ -14,7 +14,7 @@
         <li>{{ album.name }}</li>
         <ul>
             {% for song in album.song.all %}
-                <li>{{ song.name }}</li>
+                <li><a href="/song/{{ song.slug }}">{{ song.name }}</a></li>
             {% endfor %}
         </ul>
     {% endfor %}
